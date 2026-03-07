@@ -20,8 +20,8 @@ date,report_name,filename,lab_name,raw_name,test_name,value,unit,reference_range
 2026-02-06,Haemogram,2026-02-06_Haemogram.pdf,"Lal PathLabs, Pune",Basophils,Basophils (Absolute),0.01,thou/mm3,0.02 - 0.10,Absolute WBC Counts
 2024-04-03,Haemogram,2024-04-03_Haemogram.pdf,"Lal PathLabs, Pune",Eosinophils,Eosinophils (Absolute),0.27,thou/mm3,0.02 - 0.50,Absolute WBC Counts
 2024-08-16,CBC,2024-08-16_CBC.pdf,"Lal PathLabs, Pune",Eosinophils,Eosinophils (Absolute),0.25,thou/mm3,0.02 - 0.50,Absolute WBC Counts
-2025-01-09,CBC,2025-01-09_CBC.pdf,Unknown Lab,Absolute Eosinophils,Eosinophils (Absolute),308.0,,20 - 500 /µL,Absolute WBC Counts
-2025-05-07,Haemogram,2025-05-07_Haemogram.pdf,Unknown Lab,Absolute Eosinophils,Eosinophils (Absolute),291.0,,20 - 500 /µL,Absolute WBC Counts
+2025-01-09,CBC,2025-01-09_CBC.pdf,Unknown Lab,Absolute Eosinophils,Eosinophils (Absolute),0.308,thou/mm3,20 - 500 /µL,Absolute WBC Counts
+2025-05-07,Haemogram,2025-05-07_Haemogram.pdf,Unknown Lab,Absolute Eosinophils,Eosinophils (Absolute),0.291,thou/mm3,20 - 500 /µL,Absolute WBC Counts
 2025-08-07,Haemogram,2025-08-07_Haemogram.pdf,"Lal PathLabs, Pune",Eosinophils,Eosinophils (Absolute),0.35,thou/mm3,0.02 - 0.50,Absolute WBC Counts
 2025-08-12,Haemogram,2025-08-12_Haemogram.pdf,"Lal PathLabs, Pune",Eosinophils,Eosinophils (Absolute),0.32,thou/mm3,0.02 - 0.50,Absolute WBC Counts
 2025-08-19,Haemogram,2025-08-19_Haemogram.pdf,"Lal PathLabs, Pune",Eosinophils,Eosinophils (Absolute),0.09,thou/mm3,0.02 - 0.50,Absolute WBC Counts
@@ -58,8 +58,8 @@ date,report_name,filename,lab_name,raw_name,test_name,value,unit,reference_range
 2026-02-06,Haemogram,2026-02-06_Haemogram.pdf,"Lal PathLabs, Pune",Lymphocytes,Lymphocytes (Absolute),1.18,thou/mm3,1.00 - 3.00,Absolute WBC Counts
 2024-04-03,Haemogram,2024-04-03_Haemogram.pdf,"Lal PathLabs, Pune",Monocytes,Monocytes (Absolute),0.54,thou/mm3,0.20 - 1.00,Absolute WBC Counts
 2024-08-16,CBC,2024-08-16_CBC.pdf,"Lal PathLabs, Pune",Monocytes,Monocytes (Absolute),0.53,thou/mm3,0.20 - 1.00,Absolute WBC Counts
-2025-01-09,CBC,2025-01-09_CBC.pdf,Unknown Lab,Absolute Monocytes,Monocytes (Absolute),770.0,,200 - 1000 /µL,Absolute WBC Counts
-2025-05-07,Haemogram,2025-05-07_Haemogram.pdf,Unknown Lab,Absolute Monocytes,Monocytes (Absolute),679.0,,200 - 1000 /µL,Absolute WBC Counts
+2025-01-09,CBC,2025-01-09_CBC.pdf,Unknown Lab,Absolute Monocytes,Monocytes (Absolute),0.77,thou/mm3,200 - 1000 /µL,Absolute WBC Counts
+2025-05-07,Haemogram,2025-05-07_Haemogram.pdf,Unknown Lab,Absolute Monocytes,Monocytes (Absolute),0.679,thou/mm3,200 - 1000 /µL,Absolute WBC Counts
 2025-08-07,Haemogram,2025-08-07_Haemogram.pdf,"Lal PathLabs, Pune",Monocytes,Monocytes (Absolute),0.5,thou/mm3,0.20 - 1.00,Absolute WBC Counts
 2025-08-12,Haemogram,2025-08-12_Haemogram.pdf,"Lal PathLabs, Pune",Monocytes,Monocytes (Absolute),0.17,thou/mm3,0.20 - 1.00,Absolute WBC Counts
 2025-08-19,Haemogram,2025-08-19_Haemogram.pdf,"Lal PathLabs, Pune",Monocytes,Monocytes (Absolute),0.16,thou/mm3,0.20 - 1.00,Absolute WBC Counts
@@ -117,7 +117,7 @@ date,report_name,filename,lab_name,raw_name,test_name,value,unit,reference_range
 2025-01-09,HbA1C Fasting Sugar,2025-01-09_HbA1C Fasting Sugar.pdf,Unknown Lab,"Glycated Hemoglobin (HbA1C), by HPLC",HbA1C,6.8,%,4.0 to 5.6,Blood Sugar
 2025-05-07,HbA1C,2025-05-07_HbA1C.pdf,Unknown Lab,"Glycated Hemoglobin (HbA1C), by HPLC",HbA1C,6.7,%,4.0 to 5.6,Blood Sugar
 2025-07-05,HbA1C,2025-07-05_HbA1C.pdf,Unknown Lab,"Glycated Hemoglobin (HbA1C), by HPLC",HbA1C,7.5,%,4.0 to 5.6,Blood Sugar
-2025-07-28,HbA1C,2025-07-28_HbA1C.pdf,"Kokilaben Dhirubhai Ambani Hospital, Mumbai",Glycated Hemoglobin (HbA1C),HbA1C,25.0,%,Non-Diabetic: < 5.7,Blood Sugar
+2025-07-28,HbA1C,2025-07-28_HbA1C.pdf,"Kokilaben Dhirubhai Ambani Hospital, Mumbai",Glycated Hemoglobin (HbA1C),HbA1C,7.2,%,Non-Diabetic: < 5.7,Blood Sugar
 2025-09-24,HbA1C,2025-09-24_HbA1C.pdf,"Lal PathLabs, Pune",HbA1c,HbA1C,6.3,%,4.00 - 5.60,Blood Sugar
 2025-10-17,LFT,2025-10-17_LFT.pdf,"Lal PathLabs, Pune",HbA1c,HbA1C,6.1,%,4.00 - 5.60,Blood Sugar
 2025-12-15,HbA1C,2025-12-15_HbA1C.pdf,"Kokilaben Dhirubhai Ambani Hospital, Mumbai",Glycated Hemoglobin (HbA1C),HbA1C,5.4,%,Non-Diabetic: < 5.7,Blood Sugar
@@ -168,7 +168,7 @@ date,report_name,filename,lab_name,raw_name,test_name,value,unit,reference_range
 2024-04-03,Haemogram,2024-04-03_Haemogram.pdf,"Lal PathLabs, Pune",MCH,MCH,28.5,pg,27.00 - 32.00,Complete Blood Count
 2024-08-16,CBC,2024-08-16_CBC.pdf,"Lal PathLabs, Pune",MCH,MCH,28.5,pg,27.00 - 32.00,Complete Blood Count
 2025-05-26,Haemogram & ESR,2025-05-26_Haemogram & ESR.pdf,"Kokilaben Dhirubhai Ambani Hospital, Mumbai",MCH,MCH,26.7,pg,27 - 32,Complete Blood Count
-2025-06-17,Haemogram & ESR,2025-06-17_Haemogram & ESR.pdf,"Kokilaben Dhirubhai Ambani Hospital, Mumbai",MCH,MCH,212.0,pg,27 - 32,Complete Blood Count
+2025-06-17,Haemogram & ESR,2025-06-17_Haemogram & ESR.pdf,"Kokilaben Dhirubhai Ambani Hospital, Mumbai",MCH,MCH,21.2,pg,27 - 32,Complete Blood Count
 2025-07-08,CBC,2025-07-08_CBC.pdf,"Kokilaben Dhirubhai Ambani Hospital, Mumbai",MCH,MCH,27.4,pg,27 - 32,Complete Blood Count
 2025-07-28,Haemogram & ESR,2025-07-28_Haemogram & ESR.pdf,"Kokilaben Dhirubhai Ambani Hospital, Mumbai",MCH,MCH,28.4,pg,27 - 32,Complete Blood Count
 2025-08-07,Haemogram,2025-08-07_Haemogram.pdf,"Lal PathLabs, Pune",MCH,MCH,29.2,pg,27.00 - 32.00,Complete Blood Count
@@ -263,12 +263,12 @@ date,report_name,filename,lab_name,raw_name,test_name,value,unit,reference_range
 2026-01-22,Haemogram,2026-01-22_Haemogram.pdf,"Lal PathLabs, Pune",Packed Cell Volume (PCV),PCV (Packed Cell Volume),37.1,%,40.00 - 50.00,Complete Blood Count
 2026-02-06,Haemogram,2026-02-06_Haemogram.pdf,"Lal PathLabs, Pune",Packed Cell Volume (PCV),PCV (Packed Cell Volume),36.0,%,40.00 - 50.00,Complete Blood Count
 2018-12-17,Haemogram,2018-12-17_Haemogram.pdf,"Dr. Nagar Pathology, Ujjain",Platelet Count,Platelet Count,1.9,thou/mm3,"Lakhs /cu.m.m. (Normal 1,50,000 - 4,00,000 /cu.m.m.)",Complete Blood Count
-2019-05-11,Haemogram,2019-05-11_Haemogram.pdf,Unknown Lab,Platelet Count,Platelet Count,239000.0,thou/mm3,/cumm 150000 - 400000,Complete Blood Count
-2019-09-18,Haemogram and Electrolytes,2019-09-18_Haemogram and Electrolytes.pdf,Unknown Lab,Platelet Count,Platelet Count,310000.0,thou/mm3,/cumm 150000 - 400000,Complete Blood Count
+2019-05-11,Haemogram,2019-05-11_Haemogram.pdf,Unknown Lab,Platelet Count,Platelet Count,239.0,thou/mm3,/cumm 150000 - 400000,Complete Blood Count
+2019-09-18,Haemogram and Electrolytes,2019-09-18_Haemogram and Electrolytes.pdf,Unknown Lab,Platelet Count,Platelet Count,310.0,thou/mm3,/cumm 150000 - 400000,Complete Blood Count
 2020-12-12,Haemogram,2020-12-12_Haemogram.pdf,"Dr. Nagar Pathology, Ujjain",Platelet Count,Platelet Count,2.27,thou/mm3,Laldtslcu.mm(Normal 1.50 - 4.00 Lakhs/cu.mm.),Complete Blood Count
 2021-06-09,CBC,2021-06-09_CBC.pdf,"Dr. Nagar Pathology, Ujjain",Platelet Count,Platelet Count,1.71,thou/mm3,"Lakhs /cu.m.m. Qllormal 1,50,000 - 4,00,000 /cu.m.m.)",Complete Blood Count
 2022-02-09,CBC,2022-02-09_CBC.pdf,"Dr. Nagar Pathology, Ujjain",Platelet count,Platelet Count,165.0,thou/mm3,10'/mm3 1 40-400,Complete Blood Count
-2023-08-11,Haemogram,2023-08-11_Haemogram.pdf,"Sancheti Hospital, Pune",Platelet Count,Platelet Count,238000.0,thou/mm3,/cumm 150000 ­ 400000,Complete Blood Count
+2023-08-11,Haemogram,2023-08-11_Haemogram.pdf,"Sancheti Hospital, Pune",Platelet Count,Platelet Count,238.0,thou/mm3,/cumm 150000 ­ 400000,Complete Blood Count
 2024-04-03,Haemogram,2024-04-03_Haemogram.pdf,"Lal PathLabs, Pune",Platelet Count,Platelet Count,167.0,thou/mm3,150.00 - 410.00,Complete Blood Count
 2024-08-16,CBC,2024-08-16_CBC.pdf,"Lal PathLabs, Pune",Platelet Count,Platelet Count,204.0,thou/mm3,150.00 - 410.00,Complete Blood Count
 2025-01-09,CBC,2025-01-09_CBC.pdf,Unknown Lab,Platelet count,Platelet Count,226.0,thou/mm3,",000 150000 to 410000 /µL",Complete Blood Count
@@ -282,7 +282,7 @@ date,report_name,filename,lab_name,raw_name,test_name,value,unit,reference_range
 2025-08-19,Haemogram,2025-08-19_Haemogram.pdf,"Lal PathLabs, Pune",Platelet Count,Platelet Count,180.0,thou/mm3,150.00 - 410.00,Complete Blood Count
 2025-08-27,Haemogram,2025-08-27_Haemogram.pdf,"Lal PathLabs, Pune",Platelet Count,Platelet Count,239.0,thou/mm3,150.00 - 410.00,Complete Blood Count
 2025-09-02,Haemogram,2025-09-02_Haemogram.pdf,"Lal PathLabs, Pune",Platelet Count,Platelet Count,239.0,thou/mm3,150.00 - 410.00,Complete Blood Count
-2025-09-08,Haemogram,2025-09-08_Haemogram.pdf,Unknown Lab,Platelet Count,Platelet Count,355000.0,thou/mm3,/µL 150000 - 410000 Coulter principle,Complete Blood Count
+2025-09-08,Haemogram,2025-09-08_Haemogram.pdf,Unknown Lab,Platelet Count,Platelet Count,355.0,thou/mm3,/µL 150000 - 410000 Coulter principle,Complete Blood Count
 2025-09-24,Haemogram,2025-09-24_Haemogram.pdf,"Lal PathLabs, Pune",Platelet Count,Platelet Count,113.0,thou/mm3,150.00 - 410.00,Complete Blood Count
 2025-09-29,Haemogram,2025-09-29_Haemogram.pdf,"Lal PathLabs, Pune",Platelet Count,Platelet Count,125.0,thou/mm3,150.00 - 410.00,Complete Blood Count
 2025-10-02,Haemogram,2025-10-02_Haemogram.pdf,"Lal PathLabs, Pune",Platelet Count,Platelet Count,232.0,thou/mm3,150.00 - 410.00,Complete Blood Count
@@ -542,9 +542,7 @@ date,report_name,filename,lab_name,raw_name,test_name,value,unit,reference_range
 2025-11-04,KFT,2025-11-04_KFT.pdf,"Lal PathLabs, Pune",Phosphorus,Phosphorus,3.96,mg/dL,2.30 - 3.70,Electrolytes & Minerals
 2026-02-06,KFT,2026-02-06_KFT.pdf,"Lal PathLabs, Pune",Phosphorus,Phosphorus,4.54,mg/dL,2.30 - 3.70,Electrolytes & Minerals
 2019-02-23,Liver Kidney Thyroid Panel,2019-02-23_Liver Kidney Thyroid Panel.pdf,"Aarogyamm Pathology, Pune",Potassium,Potassium,5.43,mEq/L,3.50 - 5.10,Electrolytes & Minerals
-2019-05-11,Haemogram,2019-05-11_Haemogram.pdf,Unknown Lab,Potassium,Potassium,134.0,mEq/L,_ 148,Electrolytes & Minerals
 2019-06-10,Blood Test Evergreen Care,2019-06-10_Blood Test Evergreen Care.pdf,SRL Diagnostics,POTASSIUM,Potassium,3.81,mEq/L,3.50- 5.10 mmol/L,Electrolytes & Minerals
-2019-09-18,Haemogram and Electrolytes,2019-09-18_Haemogram and Electrolytes.pdf,Unknown Lab,Potassium,Potassium,43.0,mEq/L,3.5-5.4,Electrolytes & Minerals
 2020-11-23,SRL Ujjain,2020-11-23_SRL Ujjain.pdf,SRL Diagnostics,POTASSIUM,Potassium,5.3,mEq/L,High 3.50 - 5.10 mmol/L,Electrolytes & Minerals
 2020-12-12,Serum Electrolytes,2020-12-12_Serum Electrolytes.pdf,"Dr. Nagar Pathology, Ujjain",Serum Potassium,Potassium,4.8,mEq/L,3.8 - 5.6 rnEq/l,Electrolytes & Minerals
 2021-06-09,Serum Electrolytes,2021-06-09_Serum Electrolytes.pdf,"Dr. Nagar Pathology, Ujjain",Serum Potassium,Potassium,3.99,mEq/L,3.8 - 5.6,Electrolytes & Minerals
@@ -682,7 +680,7 @@ date,report_name,filename,lab_name,raw_name,test_name,value,unit,reference_range
 2023-08-11,Electrolytes Glucose HbA1C LFT,2023-08-11_Electrolytes Glucose HbA1C LFT.pdf,"Sancheti Hospital, Pune",Uric acid,Uric Acid,7.7,mg/dL,3.5 ­ 7.5,Kidney Function
 2023-12-03,Uric Acid & Sugar fasting,2023-12-03_Uric Acid & Sugar fasting.pdf,Unknown Lab,URIC ACID,Uric Acid,3.6,mg/dL,3.5 - 7.2,Kidney Function
 2024-08-16,Liver & Kidney Panel,2024-08-16_Liver & Kidney Panel.pdf,"Lal PathLabs, Pune",Uric Acid,Uric Acid,6.89,mg/dL,3.50 - 7.20,Kidney Function
-2025-05-26,LFT & KFT,2025-05-26_LFT & KFT.pdf,"Kokilaben Dhirubhai Ambani Hospital, Mumbai",Serum Uric Acid,Uric Acid,65.0,mg/dL,,Kidney Function
+2025-05-26,LFT & KFT,2025-05-26_LFT & KFT.pdf,"Kokilaben Dhirubhai Ambani Hospital, Mumbai",Serum Uric Acid,Uric Acid,6.5,mg/dL,,Kidney Function
 2025-06-17,LFT & KFT & TSH,2025-06-17_LFT & KFT & TSH.pdf,"Kokilaben Dhirubhai Ambani Hospital, Mumbai",Serum Uric Acid,Uric Acid,5.0,mg/dL,,Kidney Function
 2025-07-08,LFT & KFT & TSH,2025-07-08_LFT & KFT & TSH.pdf,"Kokilaben Dhirubhai Ambani Hospital, Mumbai",Serum Uric Acid,Uric Acid,6.0,mg/dL,3.4-7,Kidney Function
 2025-08-12,KFT,2025-08-12_KFT.pdf,"Lal PathLabs, Pune",Uric Acid,Uric Acid,4.06,mg/dL,3.50 - 7.20,Kidney Function
@@ -787,7 +785,6 @@ date,report_name,filename,lab_name,raw_name,test_name,value,unit,reference_range
 2019-06-10,Blood Test Evergreen Care,2019-06-10_Blood Test Evergreen Care.pdf,SRL Diagnostics,CHOLESTEROL,Total Cholesterol,117.0,mg/dL,Desirable: <200,Lipid Profile
 2020-11-23,SRL Ujjain,2020-11-23_SRL Ujjain.pdf,SRL Diagnostics,CHOLESTEROL,Total Cholesterol,123.0,mg/dL,< 200 Desirable,Lipid Profile
 2020-12-12,Lipid Profile,2020-12-12_Lipid Profile.pdf,"Dr. Nagar Pathology, Ujjain",Total Cholesterol,Total Cholesterol,118.0,mg/dL,130 - 250 mg./dl,Lipid Profile
-2021-06-09,Lipid Profile,2021-06-09_Lipid Profile.pdf,"Dr. Nagar Pathology, Ujjain",Total Cholesterol,Total Cholesterol,2.0,mg/dL,"q,qq mg/dl 130 - 250 mg./dl",Lipid Profile
 2023-08-11,Lipid Profile,2023-08-11_Lipid Profile.pdf,"Sancheti Hospital, Pune",Cholesterol,Total Cholesterol,128.2,mg/dL,< 200,Lipid Profile
 2023-12-03,Lipid Profile,2023-12-03_Lipid Profile.pdf,Unknown Lab,"CHOLESTEROL, TOTAL",Total Cholesterol,104.0,mg/dL,Desirable: <200,Lipid Profile
 2024-04-03,Lipid Profile,2024-04-03_Lipid Profile.pdf,"Lal PathLabs, Pune","Cholesterol, Total",Total Cholesterol,107.0,mg/dL,<200.00,Lipid Profile
@@ -983,7 +980,7 @@ date,report_name,filename,lab_name,raw_name,test_name,value,unit,reference_range
 2023-08-11,Electrolytes Glucose HbA1C LFT,2023-08-11_Electrolytes Glucose HbA1C LFT.pdf,"Sancheti Hospital, Pune",Globulin,Globulin,3.6,g/dL,2.3 ­ 3.5,Liver Function
 2024-08-16,Liver & Kidney Panel,2024-08-16_Liver & Kidney Panel.pdf,"Lal PathLabs, Pune",Globulin(Calculated),Globulin,2.93,g/dL,2.0 - 3.5,Liver Function
 2025-05-26,LFT & KFT,2025-05-26_LFT & KFT.pdf,"Kokilaben Dhirubhai Ambani Hospital, Mumbai",Globulin,Globulin,3.37,g/dL,,Liver Function
-2025-07-08,LFT & KFT & TSH,2025-07-08_LFT & KFT & TSH.pdf,"Kokilaben Dhirubhai Ambani Hospital, Mumbai",Globulin,Globulin,555.0,g/dL,1.8-3.6,Liver Function
+2025-07-08,LFT & KFT & TSH,2025-07-08_LFT & KFT & TSH.pdf,"Kokilaben Dhirubhai Ambani Hospital, Mumbai",Globulin,Globulin,5.55,g/dL,1.8-3.6,Liver Function
 2025-07-28,Liver & Renal & TSH,2025-07-28_Liver & Renal & TSH.pdf,"Kokilaben Dhirubhai Ambani Hospital, Mumbai",Globulin,Globulin,3.48,g/dL,1.8-3.6,Liver Function
 2025-08-07,LFT,2025-08-07_LFT.pdf,"Lal PathLabs, Pune",Globulin(Calculated),Globulin,3.45,g/dL,2.0 - 3.5,Liver Function
 2025-08-12,KFT,2025-08-12_KFT.pdf,"Lal PathLabs, Pune",Globulin(Calculated),Globulin,3.27,g/dL,2.0 - 3.5,Liver Function
