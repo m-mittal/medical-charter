@@ -11,6 +11,7 @@ alwaysApply: false
 - Uses `—` em-dashes, `|` pipes, `_ .` artifacts as separators.
 - Appends `-H`/`-L` flags to values. May prefix with `=—o` before units.
 - Test names: "TSH Ultrasensitive (TSH)", "Free Triiodothyronine (Free T3)", "ACTH - Adreno Corticotropic".
+- **KNOWN BUG: Decimal drop** — The text layer sometimes drops decimal points, producing values like `555` instead of `5.55` (Globulin), `212` instead of `21.2` (MCH), `65` instead of `6.5` (Uric Acid), `25` instead of a realistic HbA1C. Always sanity-check Kokilaben values that seem 10× or 100× too high.
 
 ## Lal PathLabs, Pune
 - Text-based PDFs. Clean formatting with 2+ space separation.
@@ -33,3 +34,19 @@ alwaysApply: false
 
 ## Agarwal Diagnostics, Ujjain
 - OCR required for older reports.
+
+## Known Data Quality Issues (fixed in stage3 CSV)
+
+These were found via outlier analysis and corrected directly in the stage3 CSV:
+
+| Test | Bad Value | Corrected | Source | Root Cause |
+|------|-----------|-----------|--------|------------|
+| Globulin | 555 g/dL | 5.55 | Kokilaben 2025-07-08 | Decimal drop in text layer |
+| HbA1C | 25% | 7.2% | Kokilaben 2025-07-28 | Decimal drop; confirmed 7.2 from HPLC peak table |
+| MCH | 212 pg | 21.2 | Kokilaben 2025-06-17 | Decimal drop |
+| Uric Acid | 65 mg/dL | 6.5 | Kokilaben 2025-05-26 | Decimal drop |
+| Platelet Count | 239000+ | ÷1000 | Unknown Lab, Sancheti | Lab reports in /cumm not thou/mm3 |
+| Eosinophils Abs | 308, 291 | ÷1000 | Unknown Lab | Lab reports in /µL not thou/mm3 |
+| Monocytes Abs | 770, 679 | ÷1000 | Unknown Lab | Lab reports in /µL not thou/mm3 |
+| Potassium | 134, 43 | REMOVED | Unknown Lab | Parser picked up sodium ref range |
+| Total Cholesterol | 2.0 | REMOVED | Dr. Nagar (OCR) | OCR read "2q,qq" — garbled |

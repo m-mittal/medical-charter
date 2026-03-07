@@ -53,9 +53,28 @@ Stage 1 stores raw units as-is. Stage 2 applies these transforms in order:
 
 To add a new conversion, add to `config.yaml → unit_conversions`.
 
+## Kokilaben Decimal-Drop Bug
+
+Kokilaben Dhirubhai Ambani Hospital PDFs have a text layer that sometimes drops decimal points entirely. This produces values like `555` (should be `5.55`), `212` (should be `21.2`), `65` (should be `6.5`). If a Kokilaben value looks 10× or 100× too high compared to the reference range, suspect a dropped decimal. The fix must be applied in the stage3 CSV directly since the text layer itself is wrong.
+
+## Unit Mismatch: /cumm and /µL vs thou/mm3
+
+Some labs (Unknown Lab, Sancheti) report absolute counts in raw units (/cumm, /µL) while others use thou/mm3 (thousands). Affected tests:
+- **Platelet Count**: values > 10000 need ÷1000 to convert to thou/mm3.
+- **Absolute Eosinophils, Monocytes**: values > 100 need ÷1000.
+
+## Misattributed Values
+
+Some PDFs have values from adjacent tests or reference ranges picked up as results:
+- `Potassium 134` — actually the sodium reference range (134-148).
+- `Total Cholesterol 2` — garbled OCR of "2q,qq" from a scanned report.
+
+These cannot be fixed in the parser; they must be caught by outlier analysis and removed.
+
 ## Debugging Tips
 
 - `cache/stage1_raw.csv` has ALL 2400+ raw value lines — search here for unrecognized names.
 - Compare `raw_name` and `test_name` columns in `cache/stage2_processed.csv` to verify alias mapping.
 - `parse_raw_value_line('line text')` tests Stage 1 parsing for a single line.
 - `_normalize_raw_name('raw name')` tests Stage 2 alias lookup.
+- Run outlier analysis: group by test_name, flag values > 5× MAD from median.

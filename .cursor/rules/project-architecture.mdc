@@ -5,17 +5,25 @@ alwaysApply: true
 
 # Medical Report Charter — Architecture
 
-A Flask app that extracts blood test results from PDF reports (text + OCR), consolidates them, and displays trends in a web dashboard.
+A Flask app that extracts blood test results from PDF reports (text + OCR), consolidates them, and displays trends in a web dashboard. Deployed on Render (free tier) with Dropbox as the PDF source and GitHub as persistent cache.
 
 ## File Layout
 
 - `config.yaml` — Single source of truth for all user-configurable data.
-- `pdf_processor.py` — Three-stage processing pipeline. No hardcoded data.
+- `pdf_processor.py` — Three-stage processing pipeline + incremental pipeline. No hardcoded data.
 - `app.py` — Flask API server with background-refresh threading.
-- `templates/index.html` — Dashboard HTML shell.
+- `dropbox_sync.py` — Downloads new PDFs from Dropbox, skips already-processed files.
+- `github_sync.py` — Pushes updated CSV + synced tracker to GitHub via Contents API.
+- `templates/index.html` — Dashboard HTML shell (PWA-enabled).
 - `static/js/app.js` — Frontend: table, filters, Chart.js trends, pivot view.
-- `static/css/style.css` — Styling.
-- `data/` — Source PDFs, named `yyyy-mm-dd_ReportName.pdf`.
+- `static/css/style.css` — Responsive styling (mobile/tablet/desktop breakpoints).
+- `static/manifest.json` — PWA manifest for mobile "Add to Home Screen".
+- `static/sw.js` — Service worker for offline app shell caching.
+- `Dockerfile` — Container image with tesseract-ocr + poppler-utils + gunicorn.
+- `render.yaml` — Render deployment blueprint.
+- `data/` — Source PDFs, named `yyyy-mm-dd_ReportName.pdf` (local dev only; not in git).
+- `cache/stage3_categorized.csv` — Final processed data (committed to git for instant cold starts).
+- `cache/synced_files.json` — Tracks all attempted PDF filenames to avoid re-downloading.
 
 ## Three-Stage Pipeline
 
@@ -31,7 +39,30 @@ Each stage reads the previous stage's output and writes its own CSV:
 - Stage 2: Name aliases, OCR unit fixes, display normalization, value conversion.
 - Stage 3: Assigns `test_categories` from config. Ready for the UI.
 - `run_full_pipeline()` chains all three. `clear_cache()` removes all stage files.
+- `run_incremental_pipeline()` — only processes PDFs not already in stage3. Merges new rows with existing data. Used by "Refresh Data" on Render.
+- `get_processed_filenames()` — returns union of filenames from stage3 CSV and `synced_files.json`.
 - API endpoints read from `stage3_categorized.csv`.
+
+## Deployment Architecture (Render + Dropbox + GitHub)
+
+- **Render (free tier)** hosts the Docker container with tesseract + poppler + gunicorn.
+- **Dropbox (App Folder access)** stores source PDFs in `/Apps/medical-charter/`.
+- **GitHub** stores the repo + `cache/stage3_categorized.csv` + `cache/synced_files.json`.
+- On cold start, stage3 CSV is already in the Docker image from git — dashboard loads instantly.
+- "Refresh Data" flow: Dropbox sync (new PDFs only) → incremental pipeline → push updated CSV to GitHub.
+- GitHub push triggers Render auto-deploy, baking the updated CSV into the next image.
+- `synced_files.json` tracks all PDFs ever attempted (including skipped/failed) so they aren't re-downloaded.
+
+### Environment Variables (Render)
+
+| Variable | Purpose |
+|----------|---------|
+| `DROPBOX_APP_KEY` | Dropbox app credentials |
+| `DROPBOX_APP_SECRET` | Dropbox app credentials |
+| `DROPBOX_REFRESH_TOKEN` | Long-lived OAuth2 refresh token |
+| `DROPBOX_FOLDER` | Path within Dropbox app folder (use `/` for app-folder root) |
+| `GITHUB_TOKEN` | Fine-grained PAT with Contents read/write on the repo |
+| `GITHUB_REPO` | `owner/repo-name` (e.g. `m-mittal/medical-charter`) |
 
 ## Key Design Decisions
 
@@ -39,3 +70,6 @@ Each stage reads the previous stage's output and writes its own CSV:
 - Stages 2 & 3 can be re-run without re-extracting PDFs (just delete stage2+stage3 files).
 - Frontend fetches test categories from `/api/config/categories`.
 - Background refresh thread uses `progress_cb` for live status updates.
+- Incremental pipeline avoids reprocessing all 182+ PDFs on every refresh.
+- Only `stage3_categorized.csv` and `synced_files.json` are committed to git; stage1/stage2 are intermediate and gitignored.
+- PWA support: manifest + service worker allow mobile "Add to Home Screen" with standalone window.

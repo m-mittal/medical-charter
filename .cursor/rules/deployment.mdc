@@ -1,0 +1,56 @@
+---
+description: Deployment architecture — Render, Dropbox, GitHub integration
+globs: app.py, dropbox_sync.py, github_sync.py, Dockerfile, render.yaml
+alwaysApply: false
+---
+
+# Deployment — Render + Dropbox + GitHub
+
+## Overview
+
+The app runs on Render's free Docker tier. PDFs live in Dropbox. Processed data (stage3 CSV) is committed to GitHub so cold starts load instantly.
+
+## Key Files
+
+- `dropbox_sync.py` — Downloads new PDFs from Dropbox. Skips files already in `synced_files.json` or stage3 CSV. Requires `DROPBOX_APP_KEY`, `DROPBOX_APP_SECRET`, `DROPBOX_REFRESH_TOKEN` env vars. If missing, sync is silently skipped (local dev works unchanged).
+- `github_sync.py` — Pushes `cache/stage3_categorized.csv` and `cache/synced_files.json` to GitHub via the Contents API (`PUT /repos/{owner}/{repo}/contents/{path}`). Uses stdlib `urllib`, no extra deps. Requires `GITHUB_TOKEN` and `GITHUB_REPO` env vars.
+- `Dockerfile` — `python:3.9-slim` + `tesseract-ocr` + `poppler-utils`. Runs gunicorn with 2 workers, 300s timeout.
+- `render.yaml` — Render blueprint for one-click deploy.
+
+## Dropbox Setup
+
+- App type: **Scoped Access, App Folder** (not Full Dropbox).
+- The API root is the app folder itself (`/Apps/medical-charter/`).
+- Set `DROPBOX_FOLDER=/` on Render — this means "root of the app folder".
+- Permissions needed: `files.metadata.read`, `files.content.read`.
+- Refresh token generated via OAuth2 PKCE flow (offline access). Does not expire.
+
+## Refresh Data Flow
+
+1. `get_processed_filenames()` — union of stage3 filenames + `synced_files.json`.
+2. `sync_from_dropbox()` — lists Dropbox folder, skips known files, downloads only new PDFs.
+3. `run_incremental_pipeline()` — Stage 1/2/3 on new PDFs only, merges with existing stage3.
+4. `save_synced_filenames()` — updates `synced_files.json` with all attempted filenames (including skipped/failed).
+5. `push_stage3_to_github()` — pushes updated CSV + tracker to GitHub.
+6. GitHub push triggers Render auto-deploy with updated data baked in.
+
+## Ephemeral Filesystem Considerations
+
+- Render's free tier has an ephemeral filesystem — `data/` and `cache/` are lost on restart.
+- `stage3_categorized.csv` and `synced_files.json` survive restarts because they're committed to git.
+- Stage1/stage2 CSVs are NOT persisted — they're intermediate and regenerated only during a refresh.
+- PDFs in `data/` are NOT persisted — only new ones are downloaded from Dropbox on refresh.
+
+## PWA
+
+- `static/manifest.json` + `static/sw.js` enable "Add to Home Screen" on mobile.
+- Service worker caches app shell (HTML, CSS, JS) with network-first strategy.
+- API calls are never cached by the service worker.
+- Icons: `static/icon-192.png`, `static/icon-512.png` (blue with "M").
+
+## Common Issues
+
+- **Cold start delay**: Render free tier spins down after 15 min idle. First request takes ~30-60s.
+- **Dropbox "not_found"**: With App Folder access, use `/` not `/Apps/app-name/`. The API already roots you in the app folder.
+- **GitHub push rejected**: Render may have pushed first. Run `git pull --rebase origin main` then push again.
+- **Re-downloading old files**: Check that `synced_files.json` is up to date and includes all previously attempted filenames.

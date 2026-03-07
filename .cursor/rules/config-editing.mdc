@@ -50,3 +50,13 @@ unit_conversions:
 3. To test a specific line: `parse_raw_value_line('exact line text')`.
 4. Check if it's being skipped by `skip_line_keywords`.
 5. Re-run stages 2+3 only: delete `cache/stage2_processed.csv` and `cache/stage3_categorized.csv`, then refresh.
+
+## Re-running After Config Changes (deployed)
+
+On Render, the pipeline is incremental — it only processes NEW PDFs. If you change aliases or categories in `config.yaml`, you need a full reprocess. To do that:
+1. Delete `cache/stage3_categorized.csv` from the repo (or clear its contents).
+2. Push to GitHub. Render will redeploy with an empty cache.
+3. Click "Refresh Data" — it will download all PDFs from Dropbox and run the full pipeline.
+4. The updated CSV and synced_files.json will be pushed back to GitHub.
+
+Note: This takes a long time (30+ min for 182 PDFs with OCR). Only do this when you've changed aliases or categories that affect existing data.
