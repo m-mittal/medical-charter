@@ -51,7 +51,9 @@ def sync_from_dropbox(
     local_path = Path(local_dir)
     local_path.mkdir(parents=True, exist_ok=True)
 
-    folder = dropbox_folder.rstrip('/')
+    folder = dropbox_folder.strip().rstrip('/')
+    if not folder.startswith('/'):
+        folder = '/' + folder
     synced = 0
     skipped = 0
 
@@ -83,10 +85,10 @@ def sync_from_dropbox(
             dbx.files_download_to_file(str(dest), entry.path_lower)
             synced += 1
 
-    except dbx_module.exceptions.AuthError:
-        logger.error("Dropbox auth failed — check your credentials")
+    except dbx_module.exceptions.AuthError as e:
+        logger.error(f"Dropbox auth failed — check your credentials. Detail: {e}")
     except dbx_module.exceptions.ApiError as e:
-        logger.error(f"Dropbox API error: {e}")
+        logger.error(f"Dropbox API error for folder '{folder}': {e}")
     except Exception as e:
         logger.error(f"Dropbox sync error: {e}")
 
