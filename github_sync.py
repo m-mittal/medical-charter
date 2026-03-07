@@ -91,10 +91,17 @@ def push_file_to_github(local_path: str, repo_path: str, message: str) -> bool:
 
 
 def push_stage3_to_github() -> bool:
-    """Push the stage3_categorized.csv to the repo."""
-    from pdf_processor import STAGE3_FILE
-    return push_file_to_github(
+    """Push the stage3 CSV and synced-files tracker to the repo."""
+    from pdf_processor import STAGE3_FILE, SYNCED_FILES
+    ok = push_file_to_github(
         str(STAGE3_FILE),
         'cache/stage3_categorized.csv',
         'Update stage3 data from Render refresh',
     )
+    if SYNCED_FILES.exists():
+        push_file_to_github(
+            str(SYNCED_FILES),
+            'cache/synced_files.json',
+            'Update synced files tracker',
+        )
+    return ok

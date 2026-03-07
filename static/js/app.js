@@ -409,7 +409,11 @@ function pollRefreshStatus(loadingText, btn, loadingEl) {
             const res = await fetch('/api/refresh/status');
             const status = await res.json();
 
-            if (status.total > 0) {
+            if (status.stage === 'syncing') {
+                loadingText.textContent = 'Syncing new files from Dropbox...';
+            } else if (status.stage === 'pushing') {
+                loadingText.textContent = 'Saving results to GitHub...';
+            } else if (status.total > 0) {
                 const pct = Math.round((status.current / status.total) * 100);
                 loadingText.textContent = `Processing PDF ${status.current} of ${status.total} (${pct}%)  —  ${status.current_file}`;
                 bar.style.width = pct + '%';
@@ -432,7 +436,7 @@ function pollRefreshStatus(loadingText, btn, loadingEl) {
         } catch (e) {
             // Server may be restarting, keep polling
         }
-    }, 1000);
+    }, 3000);
 }
 
 async function init() {

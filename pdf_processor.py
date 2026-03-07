@@ -24,6 +24,7 @@ CACHE_DIR = Path('./cache')
 STAGE1_FILE = CACHE_DIR / 'stage1_raw.csv'
 STAGE2_FILE = CACHE_DIR / 'stage2_processed.csv'
 STAGE3_FILE = CACHE_DIR / 'stage3_categorized.csv'
+SYNCED_FILES = CACHE_DIR / 'synced_files.json'
 
 STAGE1_COLUMNS = [
     'date', 'report_name', 'filename', 'lab_name',
@@ -555,11 +556,26 @@ def run_full_pipeline(data_dir: str = './data', progress_cb=None) -> pd.DataFram
 
 
 def get_processed_filenames() -> set:
-    """Return the set of PDF filenames already present in stage3 data."""
+    """Return all filenames we've already attempted (processed + skipped)."""
+    import json
+    names = set()
     if STAGE3_FILE.exists():
         df = pd.read_csv(STAGE3_FILE, usecols=['filename'])
-        return set(df['filename'].unique())
-    return set()
+        names.update(df['filename'].unique())
+    if SYNCED_FILES.exists():
+        names.update(json.loads(SYNCED_FILES.read_text()))
+    return names
+
+
+def save_synced_filenames(filenames: set):
+    """Persist the set of all attempted filenames so they aren't re-downloaded."""
+    import json
+    existing = set()
+    if SYNCED_FILES.exists():
+        existing = set(json.loads(SYNCED_FILES.read_text()))
+    existing.update(filenames)
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    SYNCED_FILES.write_text(json.dumps(sorted(existing)))
 
 
 def get_cached_or_process(data_dir: str = './data') -> pd.DataFrame:
@@ -585,8 +601,10 @@ def run_incremental_pipeline(data_dir: str = './data', progress_cb=None) -> pd.D
 
     processed_filenames = set(existing_df['filename'].unique()) if not existing_df.empty else set()
 
+    known_filenames = get_processed_filenames()
+
     all_pdfs = sorted(Path(data_dir).glob('*.pdf'))
-    new_pdfs = [f for f in all_pdfs if f.name not in processed_filenames]
+    new_pdfs = [f for f in all_pdfs if f.name not in known_filenames]
 
     if not new_pdfs:
         logger.info("No new PDFs to process")
@@ -634,6 +652,9 @@ def run_incremental_pipeline(data_dir: str = './data', progress_cb=None) -> pd.D
             })
 
         logger.info(f"  -> {len(raw_results)} raw values from {lab_name}")
+
+    attempted_names = {f.name for f in new_pdfs}
+    save_synced_filenames(attempted_names)
 
     if not all_rows:
         logger.info("No new values extracted — returning existing data")
