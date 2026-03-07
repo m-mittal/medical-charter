@@ -3,7 +3,6 @@ __pycache__/
 *.pyc
 .git/
 .cursor/
-cache/*.csv
 data/*.pdf
 .env
 *.md

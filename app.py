@@ -7,10 +7,11 @@ from flask import Flask, jsonify, render_template
 import pandas as pd
 
 from pdf_processor import (
-    get_cached_or_process, run_full_pipeline, clear_cache,
-    get_config, reload_config, STAGE3_FILE,
+    get_cached_or_process, run_full_pipeline, run_incremental_pipeline,
+    clear_cache, get_config, reload_config, STAGE3_FILE,
 )
 from dropbox_sync import sync_from_dropbox
+from github_sync import push_stage3_to_github
 
 logging.basicConfig(
     level=logging.INFO,
@@ -56,12 +57,14 @@ def run_refresh_in_background():
             refresh_state['stage'] = 'syncing'
         sync_from_dropbox(DATA_DIR, DROPBOX_FOLDER)
 
-        clear_cache()
-
         with refresh_lock:
             refresh_state['stage'] = 'extracting'
 
-        run_full_pipeline(DATA_DIR, progress_cb=_progress_cb)
+        run_incremental_pipeline(DATA_DIR, progress_cb=_progress_cb)
+
+        with refresh_lock:
+            refresh_state['stage'] = 'pushing'
+        push_stage3_to_github()
 
         with refresh_lock:
             refresh_state['running'] = False

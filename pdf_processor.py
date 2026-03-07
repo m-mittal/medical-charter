@@ -563,6 +563,89 @@ def get_cached_or_process(data_dir: str = './data') -> pd.DataFrame:
     return run_full_pipeline(data_dir)
 
 
+def run_incremental_pipeline(data_dir: str = './data', progress_cb=None) -> pd.DataFrame:
+    """
+    Process only NEW PDFs (not already in stage3) and merge with existing data.
+
+    Returns the merged stage-3 DataFrame. If no new PDFs are found,
+    returns the existing data unchanged.
+    """
+    existing_df = pd.DataFrame(columns=STAGE3_COLUMNS)
+    if STAGE3_FILE.exists():
+        existing_df = pd.read_csv(STAGE3_FILE)
+        existing_df['date'] = pd.to_datetime(existing_df['date']).dt.date
+
+    processed_filenames = set(existing_df['filename'].unique()) if not existing_df.empty else set()
+
+    all_pdfs = sorted(Path(data_dir).glob('*.pdf'))
+    new_pdfs = [f for f in all_pdfs if f.name not in processed_filenames]
+
+    if not new_pdfs:
+        logger.info("No new PDFs to process")
+        return existing_df
+
+    logger.info(f"Incremental: {len(new_pdfs)} new PDF(s) out of {len(all_pdfs)} total")
+
+    all_rows = []
+    total = len(new_pdfs)
+    for idx, filepath in enumerate(new_pdfs):
+        if progress_cb:
+            progress_cb(idx + 1, total, filepath.name)
+
+        report_date, report_name = parse_filename(str(filepath))
+        if not report_date:
+            logger.warning(f"Skipping {filepath.name}: could not parse date")
+            continue
+        if should_skip_report(report_name):
+            logger.info(f"Skipping non-blood-test report: {filepath.name}")
+            continue
+
+        logger.info(f"[{idx+1}/{total}] Extracting: {filepath.name}")
+        text = extract_text_from_pdf(str(filepath))
+        if not text:
+            logger.warning(f"No text extracted from {filepath.name}")
+            continue
+
+        lab_name = detect_lab_name(text)
+        raw_results = extract_raw_results(text)
+        if not raw_results:
+            logger.warning(f"No values parsed from {filepath.name}")
+            continue
+
+        for r in raw_results:
+            all_rows.append({
+                'date': report_date.isoformat(),
+                'report_name': report_name,
+                'filename': filepath.name,
+                'lab_name': lab_name,
+                'raw_name': r['raw_name'],
+                'value': r['value'],
+                'unit': r['unit'],
+                'reference_range': r['reference_range'],
+                '_in_absolute_section': r['_in_absolute_section'],
+            })
+
+        logger.info(f"  -> {len(raw_results)} raw values from {lab_name}")
+
+    if not all_rows:
+        logger.info("No new values extracted — returning existing data")
+        return existing_df
+
+    df_new_raw = pd.DataFrame(all_rows)
+    df_new_raw['date'] = pd.to_datetime(df_new_raw['date']).dt.date
+
+    df_new_s2 = run_stage2(df_new_raw)
+    df_new_s3 = run_stage3(df_new_s2)
+
+    merged = pd.concat([existing_df, df_new_s3], ignore_index=True)
+    merged = merged.sort_values(['category', 'test_name', 'date']).reset_index(drop=True)
+
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    merged.to_csv(STAGE3_FILE, index=False)
+    logger.info(f"Incremental merge complete: {len(df_new_s3)} new + {len(existing_df)} existing = {len(merged)} total rows")
+    return merged
+
+
 def clear_cache():
     """Remove all stage files."""
     for f in [STAGE1_FILE, STAGE2_FILE, STAGE3_FILE]:
