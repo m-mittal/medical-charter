@@ -1,0 +1,9 @@
+flask
+pandas
+pdfplumber
+pytesseract
+pdf2image
+Pillow
+pyyaml
+dropbox
+gunicorn

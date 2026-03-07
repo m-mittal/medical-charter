@@ -1,0 +1,52 @@
+---
+description: How to add new tests, labs, or aliases via config.yaml
+globs: config.yaml
+alwaysApply: false
+---
+
+# Editing config.yaml
+
+## Adding a New Test Alias
+
+1. Check `cache/stage1_raw.csv` for the raw name as extracted from the PDF.
+2. Add lowercase raw name → canonical name under `test_name_aliases`.
+3. Add the canonical name to `unit_inference` with its default unit.
+4. Add the canonical name to the appropriate category in `test_categories`.
+5. Delete `cache/stage2_processed.csv` and `cache/stage3_categorized.csv`, then refresh (stage 1 is kept).
+
+## Adding a New Lab
+
+Add an entry to `lab_patterns` with a regex pattern and canonical name:
+```yaml
+- pattern: "New\\s+Lab\\s+Name"
+  name: "New Lab, City"
+```
+Pattern is searched in the first 1500 chars of PDF text.
+
+## Adding a New Test Category
+
+Add a new key under `test_categories`:
+```yaml
+New Category:
+  - Test Name 1
+  - Test Name 2
+```
+
+## Adding a Unit Conversion
+
+When two labs report the same test in different units:
+```yaml
+unit_conversions:
+  T3:
+    - from: ng/dL
+      to: ng/mL
+      factor: 0.01
+```
+
+## Debugging a Missing Test
+
+1. Open `cache/stage1_raw.csv` — search for the expected raw name. If absent, the line-level parser didn't match.
+2. If present in stage1 but absent in `cache/stage2_processed.csv`, the alias is missing — add it to `test_name_aliases`.
+3. To test a specific line: `parse_raw_value_line('exact line text')`.
+4. Check if it's being skipped by `skip_line_keywords`.
+5. Re-run stages 2+3 only: delete `cache/stage2_processed.csv` and `cache/stage3_categorized.csv`, then refresh.

@@ -1,0 +1,61 @@
+---
+description: Known PDF parsing challenges and OCR patterns for blood report extraction
+globs: pdf_processor.py, config.yaml
+alwaysApply: false
+---
+
+# PDF Parsing — Known Challenges
+
+## OCR Artifacts to Handle
+
+- Em-dash `—` and en-dash `–` appear as separators instead of spaces.
+- Pipe `|` used as column separator in some OCR output.
+- Underscore-dot `_ .` appears between test name and value (Kokilaben reports).
+- Leading dash `-` before numbers is a table-border artifact, not a negative sign.
+- `=—o` prefix before units (e.g., `=—opg/mL`) — strip `= o` before unit.
+
+## Garbled OCR Units
+
+Different labs' PDFs produce garbled unit strings. Map these in `config.yaml → ocr_unit_fixes`:
+- `yWIU/mL`, `ylU/mL`, `yIU/mL`, `pIU/mL`, `ulU/ml` → `µIU/mL` (TSH reports)
+- `ng/db` → `ng/dL` (Free T4 from Kokilaben OCR)
+
+## Test Name Variations Across Labs
+
+The same test appears with many names. Always add all variants to `config.yaml → test_name_aliases`:
+- TSH: "TSH Ultrasensitive (TSH)", "TSH3RDGENERATION", "THYROID STIMULATING HORMONE (TSH):"
+- T3: "T3, Total", "Total T3", "Triiodothyronine", "Free Triiodothyronine (Free T3)"
+- ACTH: "ACTH, PLASMA", "ACTH-Adreno corticotropic hormone (plasma)", "ACTH - Adreno Corticotropic"
+
+## Unit Position Varies
+
+- Some labs put unit before ref range: `2.08 pg/mL 2-4.4`
+- Others put unit at end: `61.54 60.0 - 181.0 ng/dL`
+- Parser tries both: UNIT_PATTERN at start, then `_extract_unit_from_ref()` at end.
+
+## High/Low Flags
+
+Some labs prefix results with `-H` (High) or `-L` (Low) flags. These are stripped before parsing.
+
+## Per-Test Unit Corrections
+
+OCR sometimes drops `µ` prefix. Use `config.yaml → unit_overrides` for known cases:
+- Cortisol: `g/dL` → `µg/dL`
+
+## Unit Normalization & Conversion Pipeline
+
+Stage 1 stores raw units as-is. Stage 2 applies these transforms in order:
+1. **OCR fix** (`ocr_unit_fixes`): garbled OCR → correct unit string
+2. **Per-test override** (`unit_overrides`): wrong unit for specific test → correct
+3. **Unit inference** (`unit_inference`): assign default when no unit parsed
+4. **Display normalization** (`unit_display_normalization`): cosmetic unification (mg/dl→mg/dL, gm/dL→g/dL, mcg/dL→µg/dL, uIU/mL→µIU/mL)
+5. **Value conversion** (`unit_conversions`): scale value + change unit (e.g. T3: ng/dL×0.01→ng/mL)
+
+To add a new conversion, add to `config.yaml → unit_conversions`.
+
+## Debugging Tips
+
+- `cache/stage1_raw.csv` has ALL 2400+ raw value lines — search here for unrecognized names.
+- Compare `raw_name` and `test_name` columns in `cache/stage2_processed.csv` to verify alias mapping.
+- `parse_raw_value_line('line text')` tests Stage 1 parsing for a single line.
+- `_normalize_raw_name('raw name')` tests Stage 2 alias lookup.

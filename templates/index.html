@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Report Dashboard</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="manifest" href="/static/manifest.json">
+    <meta name="theme-color" content="#1e40af">
+    <link rel="apple-touch-icon" href="/static/icon-192.png">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Medical Report Dashboard</h1>
+            <p class="subtitle" id="dateRange">Loading...</p>
+        </div>
+        <div class="header-actions">
+            <button id="refreshBtn" class="btn btn-primary" title="Re-scan all PDFs and rebuild data">
+                <span class="btn-icon">&#8635;</span> Refresh Data
+            </button>
+        </div>
+    </header>
+
+    <div id="loading" class="loading-overlay">
+        <div class="spinner"></div>
+        <p>Loading report data...</p>
+        <div class="progress-bar-container" id="progressBarContainer" style="display:none;">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+    </div>
+
+    <main>
+        <section class="stats-bar" id="statsBar">
+            <div class="stat-card">
+                <div class="stat-value" id="statTests">-</div>
+                <div class="stat-label">Unique Tests</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statRecords">-</div>
+                <div class="stat-label">Total Readings</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statFiles">-</div>
+                <div class="stat-label">PDF Reports</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statDates">-</div>
+                <div class="stat-label">Test Dates</div>
+            </div>
+        </section>
+
+        <section class="controls">
+            <button class="filter-toggle" id="filterToggle">
+                <span class="toggle-icon">&#9660;</span> Filters &amp; Search
+            </button>
+            <div class="filter-body" id="filterBody">
+                <div class="filter-group">
+                    <label for="testFilter">Filter by Test</label>
+                    <select id="testFilter" multiple>
+                        <option value="">All Tests</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="dateFrom">From</label>
+                    <input type="date" id="dateFrom">
+                </div>
+                <div class="filter-group">
+                    <label for="dateTo">To</label>
+                    <input type="date" id="dateTo">
+                </div>
+                <div class="filter-group">
+                    <label for="searchBox">Search</label>
+                    <input type="text" id="searchBox" placeholder="Search test name...">
+                </div>
+                <div class="filter-group filter-actions">
+                    <button id="applyFilters" class="btn btn-secondary">Apply</button>
+                    <button id="clearFilters" class="btn btn-outline">Clear</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="view-tabs">
+            <button class="tab active" data-view="table">Consolidated Table</button>
+            <button class="tab" data-view="trends">Trend Charts</button>
+            <button class="tab" data-view="pivot">Pivot View</button>
+        </section>
+
+        <section id="tableView" class="view active">
+            <div class="table-wrapper">
+                <table id="resultsTable">
+                    <thead>
+                        <tr>
+                            <th data-sort="date">Date <span class="sort-icon"></span></th>
+                            <th data-sort="test_name">Test Name <span class="sort-icon"></span></th>
+                            <th data-sort="value">Value <span class="sort-icon"></span></th>
+                            <th>Unit</th>
+                            <th>Reference Range</th>
+                            <th>Report</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+            <div class="pagination" id="pagination"></div>
+        </section>
+
+        <section id="trendsView" class="view">
+            <div class="trend-selector">
+                <label for="trendTest">Select Test for Trend:</label>
+                <select id="trendTest"></select>
+            </div>
+            <div class="chart-container">
+                <canvas id="trendChart"></canvas>
+            </div>
+            <div class="trend-stats" id="trendStats"></div>
+        </section>
+
+        <section id="pivotView" class="view">
+            <p class="pivot-help">This view shows the latest value for each test, grouped by category. Click any test name to see its trend.</p>
+            <div id="pivotContent"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Medical Report Dashboard &mdash; Data extracted from PDF blood reports</p>
+    </footer>
+
+    <script src="/static/js/app.js"></script>
+    <script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/static/sw.js');
+    }
+    </script>
+</body>
+</html>

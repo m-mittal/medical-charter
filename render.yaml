@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: medical-report-charter
+    runtime: docker
+    plan: free
+    envVars:
+      - key: DROPBOX_APP_KEY
+        sync: false
+      - key: DROPBOX_APP_SECRET
+        sync: false
+      - key: DROPBOX_REFRESH_TOKEN
+        sync: false
+      - key: DROPBOX_FOLDER
+        value: /MedicalReports

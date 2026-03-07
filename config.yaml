@@ -1,0 +1,668 @@
+# =============================================================================
+# Medical Report Charter — Configuration
+# =============================================================================
+# Edit this file to add new test names, lab patterns, units, etc.
+# The application reads this on startup; restart the server after changes.
+# =============================================================================
+
+
+# ---------------------------------------------------------------------------
+# Report types to skip (non-blood-test files). Case-insensitive substring match.
+# ---------------------------------------------------------------------------
+skip_report_types:
+  - ecg
+  - echo
+  - prescription
+  - surgery note
+  - discharge summary
+  - biopsy
+  - mri
+  - 2d echo
+  - angiography
+  - biopsy initial
+  - biopsy pdl-1
+  - biopsy p16
+
+
+# ---------------------------------------------------------------------------
+# Test name aliases
+# Maps raw names (lowercase, as extracted from PDFs) → canonical display name.
+# Add entries here when a new lab uses a different name for the same test.
+# ---------------------------------------------------------------------------
+test_name_aliases:
+
+  # --- Complete Blood Count ---
+  hemoglobin: Hemoglobin
+  haemoglobin: Hemoglobin
+  hb: Hemoglobin
+  packed cell volume (pcv): "PCV (Packed Cell Volume)"
+  packed cell volume: "PCV (Packed Cell Volume)"
+  pcv: "PCV (Packed Cell Volume)"
+  rbc count: RBC Count
+  mcv: MCV
+  mch: MCH
+  mchc: MCHC
+  red cell distribution width (rdw): RDW
+  rdw: RDW
+  total leukocyte count (tlc): "WBC (Total Leukocyte Count)"
+  total leukocyte count: "WBC (Total Leukocyte Count)"
+  tlc: "WBC (Total Leukocyte Count)"
+  wbc count: "WBC (Total Leukocyte Count)"
+  total wbc count: "WBC (Total Leukocyte Count)"
+  platelet count: Platelet Count
+  platelets: Platelet Count
+  mean platelet volume: Mean Platelet Volume
+  e.s.r.: ESR
+  e.s.r: ESR
+  esr: ESR
+  erythrocyte sedimentation rate: ESR
+
+  # --- Differential Count ---
+  segmented neutrophils: "Neutrophils %"
+  neutrophils: "Neutrophils %"
+  lymphocytes: "Lymphocytes %"
+  monocytes: "Monocytes %"
+  eosinophils: "Eosinophils %"
+  basophils: "Basophils %"
+
+  # --- Lipid Profile ---
+  cholesterol, total: Total Cholesterol
+  cholesterol: Total Cholesterol
+  total cholesterol: Total Cholesterol
+  serum cholesterol: Total Cholesterol
+  triglycerides: Triglycerides
+  hdl cholesterol: HDL Cholesterol
+  hdlcholesterol: HDL Cholesterol
+  hdl: HDL Cholesterol
+  ldl cholesterol: LDL Cholesterol
+  ldl cholesterol, calculated: LDL Cholesterol
+  directldlcholesterol: LDL Cholesterol
+  direct ldl cholesterol: LDL Cholesterol
+  directldl cholesterol: LDL Cholesterol
+  ldl: LDL Cholesterol
+  vldl cholesterol: VLDL Cholesterol
+  vldl cholesterol,calculated: VLDL Cholesterol
+  vldl: VLDL Cholesterol
+  v.l.d.l.: VLDL Cholesterol
+  "total cholesterol : hdl ratio": "Total Cholesterol/HDL Ratio"
+  non-hdl cholesterol: Non-HDL Cholesterol
+  non hdl cholesterol: Non-HDL Cholesterol
+  nonhdlcholesterol: Non-HDL Cholesterol
+  total lipids: Total Lipids
+  riskratio: "Total Cholesterol/HDL Ratio"
+  ldl/hdl ratio: "LDL/HDL Ratio"
+  "ldl : hdl ratio": "LDL/HDL Ratio"
+  ldl/iidl ratio: "LDL/HDL Ratio"
+  iidl cholesterol: HDL Cholesterol
+
+  # --- Liver Function ---
+  ast (sgot): "SGOT (AST)"
+  sgot: "SGOT (AST)"
+  s.g.o.t.: "SGOT (AST)"
+  s.g.o.t: "SGOT (AST)"
+  alt (sgpt): "SGPT (ALT)"
+  sgpt: "SGPT (ALT)"
+  s.g.p.t.: "SGPT (ALT)"
+  s.g.p.t: "SGPT (ALT)"
+  ggtp: "GGTP (GGT)"
+  ggt: "GGTP (GGT)"
+  alkaline phosphatase (alp): Alkaline Phosphatase
+  alkaline phosphatase: Alkaline Phosphatase
+  bilirubin total: Bilirubin Total
+  total bilirubin: Bilirubin Total
+  bilirubin direct: Bilirubin Direct
+  direct bilirubin: Bilirubin Direct
+  bilirubin indirect: Bilirubin Indirect
+  indirect bilirubin: Bilirubin Indirect
+  total protein: Total Protein
+  albumin: Albumin
+  globulin(calculated): Globulin
+  globulin: Globulin
+  "a : g ratio": "A/G Ratio"
+  a/g ratio: "A/G Ratio"
+  "a:g ratio": "A/G Ratio"
+  "ast:alt ratio": "AST/ALT Ratio"
+
+  # --- Kidney Function ---
+  creatinine: Creatinine
+  serum creatinine: Creatinine
+  gfr estimated: eGFR
+  egfr: eGFR
+  urea: Urea
+  blood urea: Urea
+  urea nitrogen blood: BUN
+  bun: BUN
+  bun/creatinine ratio: "BUN/Creatinine Ratio"
+  uric acid: Uric Acid
+  serum uric acid: Uric Acid
+
+  # --- Electrolytes & Minerals ---
+  calcium, total: Calcium
+  calcium: Calcium
+  serum calcium: Calcium
+  phosphorus: Phosphorus
+  sodium: Sodium
+  serum sodium: Sodium
+  potassium: Potassium
+  serum potassium: Potassium
+  chloride: Chloride
+  serum chloride: Chloride
+
+  # --- Thyroid ---
+  tsh: TSH
+  thyroid stimulating hormone: TSH
+  thyroid stimulating hormone (tsh): TSH
+  tsh ultrasensitive: TSH
+  tsh ultrasensitive (tsh): TSH
+  "tsh, 3rd generation": TSH
+  tsh 3rd generation: TSH
+  tsh3rdgeneration: TSH
+
+  t3: T3
+  "t3, total": T3
+  total t3: T3
+  triiodothyronine: T3
+  triiodothyronine (t3): T3
+  "triiodothyronine, total": T3
+
+  t4: T4
+  "t4, total": T4
+  total t4: T4
+  thyroxine: T4
+  thyroxine (t4): T4
+  "thyroxine, total": T4
+
+  free t3: Free T3
+  free triiodothyronine: Free T3
+  free triiodothyronine (free t3): Free T3
+  ft3: Free T3
+
+  free t4: Free T4
+  free thyroxine: Free T4
+  free thyroxine (free t4): Free T4
+  ft4: Free T4
+
+  # --- Blood Sugar ---
+  fasting blood glucose: Fasting Blood Glucose
+  glucose fasting: Fasting Blood Glucose
+  "glucose, fasting": Fasting Blood Glucose
+  fasting blood sugar: Fasting Blood Glucose
+  fasting sugar: Fasting Blood Glucose
+  blood glucose fasting: Fasting Blood Glucose
+  blood sugar fasting: Fasting Blood Glucose
+  blood glucose: Fasting Blood Glucose
+  glucose: Fasting Blood Glucose
+  post prandial blood glucose: Post Prandial Blood Glucose
+  glucose pp: Post Prandial Blood Glucose
+
+  "glycated hemoglobin (hba1c), by hplc": HbA1C
+  glycated hemoglobin (hba1c): HbA1C
+  glycated hemoglobin: HbA1C
+  glycosylated haemoglobin: HbA1C
+  hba1c: HbA1C
+  hb a1c: HbA1C
+  hba1c (glycated hemoglobin): HbA1C
+  estimated average glucose (eag): "Estimated Average Glucose (eAG)"
+  eag: "Estimated Average Glucose (eAG)"
+
+  # --- Inflammation & Cardiac ---
+  c-reactive protein: CRP
+  crp: CRP
+  c reactive protein: CRP
+  hs-crp: hs-CRP
+  serum ferritin: Ferritin
+  ferritin: Ferritin
+  troponin i: Troponin I
+  troponin: Troponin I
+  troponin-i: Troponin I
+  insulin fasting: Insulin Fasting
+  lactate dehydrogenase: LDH
+  ldh: LDH
+  prothrombin time: Prothrombin Time
+  pt: Prothrombin Time
+  inr: INR
+  pt-inr: INR
+
+  # --- Vitamins ---
+  vitamin d total: Vitamin D
+  vitamin d: Vitamin D
+  25-oh vitamin d: Vitamin D
+  25 hydroxy vitamin d: Vitamin D
+  vit d total (25 oh): Vitamin D
+  vitamin b12: Vitamin B12
+  vitamin b-12: Vitamin B12
+  vit b12: Vitamin B12
+  cyanocobalamin: Vitamin B12
+
+  # --- Hormones ---
+  acth: ACTH
+  "acth, plasma": ACTH
+  acth - adreno corticotropic: ACTH
+  acth-adreno corticotropic hormone: ACTH
+  acth-adreno corticotropic hormone (plasma): ACTH
+  adrenocorticotropic hormone: ACTH
+
+  cortisol: Cortisol
+  serum cortisol: Cortisol
+  cortisol (morning): Cortisol
+  "cortisol, morning": Cortisol
+  "cortisol, morning, serum": Cortisol
+
+  # --- Iron ---
+  iron: Iron
+  serum iron: Iron
+  tibc: TIBC
+  total iron binding capacity: TIBC
+  transferrin saturation: Transferrin Saturation
+  "% transferrin saturation": Transferrin Saturation
+
+  # --- Absolute WBC Counts ---
+  absolute neutrophils: "Neutrophils (Absolute)"
+  absolute lymphocytes: "Lymphocytes (Absolute)"
+  absolute monocytes: "Monocytes (Absolute)"
+  absolute eosinophils: "Eosinophils (Absolute)"
+  absolute basophils: "Basophils (Absolute)"
+
+  # --- Urine (basic) ---
+  specific gravity: Urine Specific Gravity
+  ph: Urine pH
+
+  # --- Values to explicitly skip ---
+  gfr category: null
+
+
+# ---------------------------------------------------------------------------
+# Default unit for each canonical test name.
+# Used when the parser can't extract a unit from the PDF text.
+# ---------------------------------------------------------------------------
+unit_inference:
+  Hemoglobin: g/dL
+  RBC Count: mill/mm3
+  MCV: fL
+  MCH: pg
+  MCHC: g/dL
+  "WBC (Total Leukocyte Count)": thou/mm3
+  Platelet Count: thou/mm3
+  ESR: mm/hr
+  Total Cholesterol: mg/dL
+  Triglycerides: mg/dL
+  HDL Cholesterol: mg/dL
+  LDL Cholesterol: mg/dL
+  VLDL Cholesterol: mg/dL
+  Non-HDL Cholesterol: mg/dL
+  Fasting Blood Glucose: mg/dL
+  Post Prandial Blood Glucose: mg/dL
+  "Estimated Average Glucose (eAG)": mg/dL
+  HbA1C: "%"
+  Creatinine: mg/dL
+  Urea: mg/dL
+  BUN: mg/dL
+  Uric Acid: mg/dL
+  Calcium: mg/dL
+  Phosphorus: mg/dL
+  Sodium: mEq/L
+  Potassium: mEq/L
+  Chloride: mEq/L
+  T3: ng/dL
+  T4: µg/dL
+  Free T3: pg/mL
+  Free T4: ng/dL
+  TSH: µIU/mL
+  CRP: mg/L
+  Ferritin: ng/mL
+  Vitamin D: ng/mL
+  Vitamin B12: pg/mL
+  ACTH: pg/mL
+  Cortisol: µg/dL
+  "SGOT (AST)": U/L
+  "SGPT (ALT)": U/L
+  "GGTP (GGT)": U/L
+  Alkaline Phosphatase: U/L
+  Bilirubin Total: mg/dL
+  Bilirubin Direct: mg/dL
+  Bilirubin Indirect: mg/dL
+  Total Protein: g/dL
+  Albumin: g/dL
+  Globulin: g/dL
+  Iron: µg/dL
+  TIBC: µg/dL
+
+
+# ---------------------------------------------------------------------------
+# OCR garbled-unit corrections.
+# Maps garbled unit (lowercase) → correct unit.
+# ---------------------------------------------------------------------------
+ocr_unit_fixes:
+  ywiu/ml: µIU/mL
+  ylu/ml: µIU/mL
+  yiu/ml: µIU/mL
+  piu/ml: µIU/mL
+  ulu/ml: µIU/mL
+  pwiu/ml: µIU/mL
+  ng/db: ng/dL
+
+
+# ---------------------------------------------------------------------------
+# Per-test unit overrides.
+# When OCR produces a wrong unit for a known test, correct it.
+# Format:  TestName: { wrong_unit: correct_unit }
+# ---------------------------------------------------------------------------
+unit_overrides:
+  Cortisol:
+    g/dL: µg/dL
+
+
+# ---------------------------------------------------------------------------
+# Unit display normalization.
+# Maps cosmetic/notation variants to a single canonical spelling.
+# Applied AFTER OCR fixes but BEFORE conversions.  No value change — only display.
+# ---------------------------------------------------------------------------
+unit_display_normalization:
+  # case normalization
+  mg/dl: mg/dL
+  g/dl: g/dL
+  ng/dl: ng/dL
+  ng/ml: ng/mL
+  pg/ml: pg/mL
+  ug/dl: µg/dL
+  µg/dl: µg/dL
+  meq/l: mEq/L
+  miu/l: mIU/L
+  fl: fL
+  u/l: U/L
+  iu/ml: IU/mL
+  nmol/l: nmol/L
+  pmol/l: pmol/L
+  mg/l: mg/L
+  # notation variants (same physical unit)
+  gm/dL: g/dL
+  gm/dl: g/dL
+  mcg/dL: µg/dL
+  mcg/dl: µg/dL
+  ug/dL: µg/dL
+  uIU/mL: µIU/mL
+  uiu/ml: µIU/mL
+
+
+# ---------------------------------------------------------------------------
+# Unit conversions.
+# When a test's value is extracted in a non-standard unit, convert it to
+# the canonical unit so all data points are comparable on trend charts.
+# factor: multiply the value by this number.  e.g. ng/dL → ng/mL is ×0.01
+# ---------------------------------------------------------------------------
+unit_conversions:
+  T3:
+    - from: ng/dL
+      to: ng/mL
+      factor: 0.01
+
+
+# ---------------------------------------------------------------------------
+# Known measurement units (lowercase).
+# Used as a fallback to identify units during parsing.
+# ---------------------------------------------------------------------------
+known_units:
+  - mg/dl
+  - g/dl
+  - "%"
+  - u/l
+  - meq/l
+  - miu/l
+  - uiu/ml
+  - ng/ml
+  - ng/dl
+  - pg/ml
+  - fl
+  - pg
+  - thou/mm3
+  - mill/mm3
+  - mm/hr
+  - ml/min/1.73m2
+  - seconds
+  - sec
+  - mcg/dl
+  - umol/l
+  - gm/dl
+  - ug/dl
+  - cells/cumm
+  - lakhs/cumm
+  - µg/dl
+  - mg/l
+  - iu/ml
+  - µiu/ml
+  - nmol/l
+  - pmol/l
+  - ratio
+  - mm3
+  - x10^3/ul
+  - x10^6/ul
+  - lakh/cumm
+  - thou/cumm
+  - mill/cumm
+  - g/l
+  - u/ml
+
+
+# ---------------------------------------------------------------------------
+# Keywords that identify non-result lines (headers, footers, notes, etc.).
+# If any keyword is found (case-insensitive substring) the line is skipped.
+# ---------------------------------------------------------------------------
+skip_line_keywords:
+  - patient name
+  - lab no
+  - ref by
+  - collected at
+  - processed at
+  - a/c status
+  - report status
+  - test report
+  - test name
+  - department of
+  - note
+  - "interpretation:"
+  - important
+  - "method :"
+  - "sample :"
+  - "advised:"
+  - comment
+  - this report
+  - subject to
+  - "page "
+  - end of report
+  - laboratory incharge
+  - "pathologist,"
+  - "entered by:"
+  - www.
+  - email
+  - phone
+  - "tel :"
+  - risk category
+  - treatment goal
+  - consider therapy
+  - instructions
+  - "name :"
+  - "age :"
+  - "gender :"
+  - sponsor
+  - "location :"
+  - visit no
+  - "date :"
+  - "prn :"
+  - ip no
+  - registration
+  - report date
+  - collection date
+  - "pid:"
+  - "sid:"
+  - reffered by
+  - referred by
+  - dr.g.k
+  - dr. vikas
+  - dr.vikas
+  - auto analyzer
+  - by auto
+  - normal fasting
+  - in case of
+  - for medicolegal
+  - jurisdiction
+  - accession
+  - client code
+  - "cert."
+  - "drawn :"
+  - "received :"
+  - status final
+  - "cin -"
+  - customercare
+  - maharashtra
+  - mr. purshottam
+  - mr.purshottam
+
+
+# ---------------------------------------------------------------------------
+# Method indicators stripped from test names (inside parentheses).
+# These are matched case-insensitively inside (...) and the entire
+# parenthesized group is removed from the raw test name.
+# ---------------------------------------------------------------------------
+method_indicators:
+  - photometry
+  - impedance
+  - calculated
+  - ifcc
+  - biuret
+  - bcg
+  - urease
+  - arsenazo
+  - molybdate
+  - indirect ise
+  - direct measure
+  - enzymatic
+  - turbidimetric
+  - coulter
+  - capillary
+  - colorimetric
+  - clia
+  - eclia
+  - chemiluminescence
+  - spectrophotometry
+  - elisa
+
+
+# ---------------------------------------------------------------------------
+# Lab detection patterns.
+# Each entry has a regex pattern (searched in the first ~1500 chars of PDF)
+# and the canonical lab name to assign.
+# ---------------------------------------------------------------------------
+lab_patterns:
+  - pattern: "L\\s*P\\s*L[\\s\\-]+PUNE\\s+LAB|Lal\\s*Path\\s*Labs"
+    name: "Lal PathLabs, Pune"
+  - pattern: "Kokilaben\\s+Dhirubhai\\s+Ambani"
+    name: "Kokilaben Dhirubhai Ambani Hospital, Mumbai"
+  - pattern: "SRL\\s+LIMITED"
+    name: SRL Diagnostics
+  - pattern: "AAROGYAMM\\s+PATHOLOGY"
+    name: "Aarogyamm Pathology, Pune"
+  - pattern: "AGARWAL\\s+(PATHOLOGY|DIAGNOSTICS)"
+    name: "Agarwal Diagnostics, Ujjain"
+  - pattern: "Happy\\s+Hearts\\s+Club|Sancheti"
+    name: "Sancheti Hospital, Pune"
+  - pattern: "Kalpavraksha|UJJAIN\\s*\\(M\\.?P\\)"
+    name: "Dr. Nagar Pathology, Ujjain"
+  - pattern: "Evergreen\\s+Care"
+    name: "Evergreen Care, Pune"
+  - pattern: "P\\s*A\\s*WAR\\s+DIAGNOSTIC"
+    name: "Lal PathLabs, Pune"
+
+
+# ---------------------------------------------------------------------------
+# UI test categories — groups tests in the dashboard dropdown and pivot view.
+# ---------------------------------------------------------------------------
+test_categories:
+  Lipid Profile:
+    - Total Cholesterol
+    - Triglycerides
+    - HDL Cholesterol
+    - LDL Cholesterol
+    - VLDL Cholesterol
+    - Non-HDL Cholesterol
+    - "Total Cholesterol/HDL Ratio"
+    - "LDL/HDL Ratio"
+    - Total Lipids
+  Blood Sugar:
+    - Fasting Blood Glucose
+    - Post Prandial Blood Glucose
+    - HbA1C
+    - "Estimated Average Glucose (eAG)"
+  Complete Blood Count:
+    - Hemoglobin
+    - "PCV (Packed Cell Volume)"
+    - RBC Count
+    - MCV
+    - MCH
+    - MCHC
+    - RDW
+    - "WBC (Total Leukocyte Count)"
+    - Platelet Count
+    - Mean Platelet Volume
+    - ESR
+  Differential Count:
+    - "Neutrophils %"
+    - "Lymphocytes %"
+    - "Monocytes %"
+    - "Eosinophils %"
+    - "Basophils %"
+  Liver Function:
+    - "SGOT (AST)"
+    - "SGPT (ALT)"
+    - "AST/ALT Ratio"
+    - "GGTP (GGT)"
+    - Alkaline Phosphatase
+    - Bilirubin Total
+    - Bilirubin Direct
+    - Bilirubin Indirect
+    - Total Protein
+    - Albumin
+    - Globulin
+    - "A/G Ratio"
+  Kidney Function:
+    - Creatinine
+    - eGFR
+    - Urea
+    - BUN
+    - "BUN/Creatinine Ratio"
+    - Uric Acid
+  Electrolytes & Minerals:
+    - Sodium
+    - Potassium
+    - Chloride
+    - Calcium
+    - Phosphorus
+  Thyroid:
+    - TSH
+    - T3
+    - T4
+    - Free T3
+    - Free T4
+  Iron & Vitamins:
+    - Iron
+    - TIBC
+    - Transferrin Saturation
+    - Ferritin
+    - Vitamin D
+    - Vitamin B12
+  Hormones:
+    - ACTH
+    - Cortisol
+    - Insulin Fasting
+  Inflammation & Cardiac:
+    - CRP
+    - hs-CRP
+    - Troponin I
+    - LDH
+    - Prothrombin Time
+    - INR
+  Absolute WBC Counts:
+    - "Neutrophils (Absolute)"
+    - "Lymphocytes (Absolute)"
+    - "Monocytes (Absolute)"
+    - "Eosinophils (Absolute)"
+    - "Basophils (Absolute)"

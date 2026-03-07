@@ -1,0 +1,35 @@
+---
+description: Known pathology labs, their PDF formats, and quirks
+globs: pdf_processor.py, config.yaml
+alwaysApply: false
+---
+
+# Known Pathology Labs & PDF Quirks
+
+## Kokilaben Dhirubhai Ambani Hospital, Mumbai
+- Text-based PDFs (pdfplumber works).
+- Uses `—` em-dashes, `|` pipes, `_ .` artifacts as separators.
+- Appends `-H`/`-L` flags to values. May prefix with `=—o` before units.
+- Test names: "TSH Ultrasensitive (TSH)", "Free Triiodothyronine (Free T3)", "ACTH - Adreno Corticotropic".
+
+## Lal PathLabs, Pune
+- Text-based PDFs. Clean formatting with 2+ space separation.
+- Test names: "T3, Total", "T4, Total", "TSH", "CORTISOL, MORNING, SERUM", "ACTH, PLASMA".
+
+## SRL Diagnostics
+- Text-based PDFs. Test names often have no spaces ("HDLCHOLESTEROL", "TSH3RDGENERATION").
+- Unit after ref range: `T3 61.54 60.0 - 181.0 ng/dL`.
+
+## Aarogyamm Pathology, Pune
+- Text-based. Standard formatting similar to Lal PathLabs.
+
+## Dr. Nagar Pathology, Ujjain (Kalpavraksha)
+- OCR required (scanned reports). Short format: `THYROID STIMULATING HORMONE (TSH): 3.84 ulU/ml.`
+- Units are garbled OCR: `ulU/ml` → `µIU/mL`.
+- Often only has the test result and ref range on separate lines.
+
+## Sancheti Hospital, Pune
+- Text-based. Uses soft-hyphen (`\u00AD`) in ref ranges instead of dash.
+
+## Agarwal Diagnostics, Ujjain
+- OCR required for older reports.

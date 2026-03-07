@@ -1,0 +1,41 @@
+---
+description: Project architecture and file layout for the Medical Report Charter app
+alwaysApply: true
+---
+
+# Medical Report Charter — Architecture
+
+A Flask app that extracts blood test results from PDF reports (text + OCR), consolidates them, and displays trends in a web dashboard.
+
+## File Layout
+
+- `config.yaml` — Single source of truth for all user-configurable data.
+- `pdf_processor.py` — Three-stage processing pipeline. No hardcoded data.
+- `app.py` — Flask API server with background-refresh threading.
+- `templates/index.html` — Dashboard HTML shell.
+- `static/js/app.js` — Frontend: table, filters, Chart.js trends, pivot view.
+- `static/css/style.css` — Styling.
+- `data/` — Source PDFs, named `yyyy-mm-dd_ReportName.pdf`.
+
+## Three-Stage Pipeline
+
+Each stage reads the previous stage's output and writes its own CSV:
+
+| Stage | Function | Input | Output | Rows |
+|-------|----------|-------|--------|------|
+| 1 — Extract | `run_stage1()` | PDF files | `cache/stage1_raw.csv` | All parseable lines (2400+) |
+| 2 — Process | `run_stage2()` | stage1 CSV | `cache/stage2_processed.csv` | Recognized tests only (900+) |
+| 3 — Categorize | `run_stage3()` | stage2 CSV | `cache/stage3_categorized.csv` | Same + `category` column |
+
+- Stage 1: Raw PDF extraction — no name normalization, no unit conversion.
+- Stage 2: Name aliases, OCR unit fixes, display normalization, value conversion.
+- Stage 3: Assigns `test_categories` from config. Ready for the UI.
+- `run_full_pipeline()` chains all three. `clear_cache()` removes all stage files.
+- API endpoints read from `stage3_categorized.csv`.
+
+## Key Design Decisions
+
+- All mappings live in `config.yaml` — never hardcode in Python or JS.
+- Stages 2 & 3 can be re-run without re-extracting PDFs (just delete stage2+stage3 files).
+- Frontend fetches test categories from `/api/config/categories`.
+- Background refresh thread uses `progress_cb` for live status updates.
