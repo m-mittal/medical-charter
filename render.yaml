@@ -11,4 +11,4 @@ services:
       - key: DROPBOX_REFRESH_TOKEN
         sync: false
       - key: DROPBOX_FOLDER
-        value: /MedicalReports
+        value: /

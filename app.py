@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 
 DATA_DIR = './data'
-DROPBOX_FOLDER = os.environ.get('DROPBOX_FOLDER', '/MedicalReports')
+DROPBOX_FOLDER = os.environ.get('DROPBOX_FOLDER', '/')
 
 # ---------------------------------------------------------------------------
 # Background refresh state

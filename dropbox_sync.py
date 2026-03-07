@@ -52,7 +52,9 @@ def sync_from_dropbox(
     local_path.mkdir(parents=True, exist_ok=True)
 
     folder = dropbox_folder.strip().rstrip('/')
-    if not folder.startswith('/'):
+    if folder == '/' or folder == '':
+        folder = ''
+    elif not folder.startswith('/'):
         folder = '/' + folder
     synced = 0
     skipped = 0
