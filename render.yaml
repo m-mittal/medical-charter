@@ -12,3 +12,7 @@ services:
         sync: false
       - key: DROPBOX_FOLDER
         value: /
+      - key: GITHUB_TOKEN
+        sync: false
+      - key: GITHUB_REPO
+        value: m-mittal/medical-charter
