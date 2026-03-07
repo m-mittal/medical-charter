@@ -36,11 +36,13 @@ def _get_client():
 def sync_from_dropbox(
     local_dir: str = './data',
     dropbox_folder: str = '/MedicalReports',
+    already_processed: set = None,
 ) -> dict:
     """
     Download new/changed PDFs from *dropbox_folder* into *local_dir*.
 
-    Skips files that already exist locally with the same size.
+    Skips files that already exist locally with the same size,
+    and files whose names appear in *already_processed* (e.g. from stage3 CSV).
     Returns a summary dict with counts of synced, skipped, and total files.
     """
     dbx = _get_client()
@@ -78,6 +80,10 @@ def sync_from_dropbox(
         logger.info(f"Dropbox: found {len(pdf_entries)} PDF(s) in {folder}")
 
         for entry in pdf_entries:
+            if already_processed and entry.name in already_processed:
+                skipped += 1
+                continue
+
             dest = local_path / entry.name
             if dest.exists() and dest.stat().st_size == entry.size:
                 skipped += 1

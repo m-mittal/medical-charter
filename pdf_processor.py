@@ -554,6 +554,14 @@ def run_full_pipeline(data_dir: str = './data', progress_cb=None) -> pd.DataFram
     return df3
 
 
+def get_processed_filenames() -> set:
+    """Return the set of PDF filenames already present in stage3 data."""
+    if STAGE3_FILE.exists():
+        df = pd.read_csv(STAGE3_FILE, usecols=['filename'])
+        return set(df['filename'].unique())
+    return set()
+
+
 def get_cached_or_process(data_dir: str = './data') -> pd.DataFrame:
     """Return stage-3 data from cache, or run full pipeline."""
     if STAGE3_FILE.exists():
